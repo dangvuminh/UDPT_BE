@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ForumService/ForumService.iml" filepath="$PROJECT_DIR$/ForumService/ForumService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GateWay/GateWay.iml" filepath="$PROJECT_DIR$/GateWay/GateWay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RegisterServer/RegisterServer.iml" filepath="$PROJECT_DIR$/RegisterServer/RegisterServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/UDPT_BE.iml" filepath="$PROJECT_DIR$/.idea/UDPT_BE.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UserService/UserService.iml" filepath="$PROJECT_DIR$/UserService/UserService.iml" />
+    </modules>
+  </component>
+</project>
