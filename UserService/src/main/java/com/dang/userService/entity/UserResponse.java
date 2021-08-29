@@ -4,12 +4,12 @@ package com.dang.userService.entity;
 public class UserResponse {
 	private String title;
 	private String message;
-	private String statusCode;
+	private Integer statusCode;
 	
 	public UserResponse() {
 		// TODO Auto-generated constructor stub
 	}
-	public UserResponse(String title,String message, String statusCode ) {
+	public UserResponse(String title,String message, Integer statusCode ) {
 		// TODO Auto-generated constructor stub
 		this.title = title;
 		this.message = message;
@@ -19,7 +19,7 @@ public class UserResponse {
 		return message;
 	}
 	
-	public String getStatusCode() {
+	public Integer getStatusCode() {
 		return statusCode;
 	}
 	
@@ -31,7 +31,7 @@ public class UserResponse {
 		this.message = message;
 	}
 	
-	public void setStatusCode(String statusCode) {
+	public void setStatusCode(Integer statusCode) {
 		this.statusCode = statusCode;
 	}
 	

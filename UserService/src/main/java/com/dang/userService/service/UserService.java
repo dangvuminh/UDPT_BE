@@ -19,7 +19,7 @@ public class UserService {
 	public void signUp(User user) {
 		Optional<User> isUserExisted = userRepository.findUserByUsername(user.getUsername());
 		if(isUserExisted.isPresent()) {
-			throw new IllegalStateException("This username is not availlable");
+			throw new IllegalStateException("This username is not available");
 		}
 		user.setUser_id(UUID.randomUUID().toString());
 		userRepository.save(user);
@@ -28,8 +28,8 @@ public class UserService {
 	public UserResponse isUserExisted(String id) {
 		Optional<User> user = userRepository.findById(id);
 		if(user.isPresent()) {
-			return new UserResponse("user found","The user can be used","204");
+			return new UserResponse("user found","The user can be used",204);
 		}
-		return new UserResponse("user not found","The user is not existing","404");
+		return new UserResponse("user not found","The user is not existing",404);
 	}
 }

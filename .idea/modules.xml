@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ForumService/ForumService.iml" filepath="$PROJECT_DIR$/ForumService/ForumService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CommentService/ForumService-1.iml" filepath="$PROJECT_DIR$/CommentService/ForumService-1.iml" />
       <module fileurl="file://$PROJECT_DIR$/GateWay/GateWay.iml" filepath="$PROJECT_DIR$/GateWay/GateWay.iml" />
       <module fileurl="file://$PROJECT_DIR$/RegisterServer/RegisterServer.iml" filepath="$PROJECT_DIR$/RegisterServer/RegisterServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/UDPT_BE.iml" filepath="$PROJECT_DIR$/.idea/UDPT_BE.iml" />

@@ -1,5 +1,6 @@
 package com.dang.forumService.controller;
 
+import com.dang.forumService.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,11 @@ public class ForumCommandController {
 	@PostMapping("/create_question")
 	public ForumResponse createQuestion(@RequestBody Forum forum) {
 		return forumService.createQuestion(forum);
-	}	
+	}
+
+	@PostMapping("/create_category")
+	public ForumResponse createCategory(@RequestBody Category category) {
+		return forumService.createCategory(category);
+	}
 
 }

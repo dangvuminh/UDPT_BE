@@ -8,12 +8,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ForumService" />
         <module name="RegisterServer" />
+        <module name="ForumService-1" />
         <module name="UserService" />
         <module name="GateWay" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="ForumService" target="1.8" />
+      <module name="ForumService-1" target="1.8" />
       <module name="GateWay" target="1.8" />
       <module name="RegisterServer" target="1.8" />
       <module name="UserService" target="1.8" />
@@ -22,6 +24,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ForumService" options="-parameters" />
+      <module name="ForumService-1" options="-parameters" />
       <module name="GateWay" options="-parameters" />
       <module name="RegisterServer" options="-parameters" />
       <module name="UserService" options="-parameters" />
