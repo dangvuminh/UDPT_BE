@@ -26,7 +26,14 @@ public class ForumService {
 	
 	@Autowired
 	private RestTemplate restTemplate;
-	
+
+	private List<Forum> mapForumsWithComments(List<Forum> forumList) {
+		return forumList.stream().map((q) -> {
+			NumberOfComments num = restTemplate.getForObject("http://COMMENT-SERVICE/api/comment/count_comment_by_forum/" + q.getForum_id(), NumberOfComments.class);
+			return new Forum(q.getForum_id(),q.getForum_name(),q.getForum_content(),q.getUser_id_fk(),num.getNumberOfComments(),q.isIs_legal(),q.getNum_of_comments(),q.getTag(),q.getCategory_id_fk());
+		}).collect(Collectors.toList());
+	}
+
 	public ForumResponse createQuestion(Forum forum) {
 			forum.setNum_of_likes(0);
 			forum.setNum_of_comments(0);
@@ -56,10 +63,12 @@ public class ForumService {
 
 	public List<Forum> getQuestionList(){
 		List<Forum> forumList = forumRepository.findAll();
-		return forumList.stream().map((q) -> {
-			NumberOfComments num = restTemplate.getForObject("http://COMMENT-SERVICE/api/comment/count_comment_by_forum/" + q.getForum_id(), NumberOfComments.class);
-			// q.setNum_of_comments(num.getNumberOfComments());
-			return new Forum(q.getForum_id(),q.getForum_name(),q.getForum_content(),q.getUser_id_fk(),num.getNumberOfComments(),q.isIs_legal(),q.getNum_of_comments(),q.getTag(),q.getCategory_id_fk());
-		}).collect(Collectors.toList());
+		return mapForumsWithComments(forumList);
 	}
+
+	public List<Forum> getQuestionListByCategory(Integer categoryId){
+		List<Forum> forumList = forumRepository.findByCategoryIdEquals(categoryId);
+		return mapForumsWithComments(forumList);
+	}
+
 }

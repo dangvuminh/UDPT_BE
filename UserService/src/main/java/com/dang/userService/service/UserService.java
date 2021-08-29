@@ -4,12 +4,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.dang.userService.entity.UserInfo;
+import com.dang.userService.entity.UserSignIn;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.dang.userService.entity.User;
 import com.dang.userService.entity.UserResponse;
 import com.dang.userService.repository.UserRepository;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
@@ -23,6 +27,20 @@ public class UserService {
 		}
 		user.setUser_id(UUID.randomUUID().toString());
 		userRepository.save(user);
+	}
+
+	public Optional<UserInfo> signIn(UserSignIn user){
+		Optional<User> userInfo = userRepository.userSignInAuthen(user.getUsername(),user.getPassword());
+		if(userInfo.isPresent()) {
+			return Optional.of(new UserInfo(userInfo.get().getUser_id(),
+					userInfo.get().getUsername(),
+					userInfo.get().getFirst_name(),
+					userInfo.get().getLast_name(),
+					userInfo.get().getEmail(),
+					userInfo.get().getProfile_img(),
+					userInfo.get().isIs_admin()));
+		}
+		throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"User or password not correct");
 	}
 	
 	public UserResponse isUserExisted(String id) {

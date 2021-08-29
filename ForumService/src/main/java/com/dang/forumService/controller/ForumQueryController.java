@@ -23,6 +23,11 @@ public class ForumQueryController {
         return forumService.getQuestionList();
     }
 
+    @GetMapping("/get_questions/{categoryId}")
+    public List<Forum> getQuestionListByCategory(@PathVariable Integer categoryId){
+        return forumService.getQuestionListByCategory(categoryId);
+    }
+
     @GetMapping("/is_forum_existed/{forum_id}")
     public ForumResponse isForumExisted(@PathVariable Integer forum_id){
        return forumService.isCategoryExisted(forum_id);

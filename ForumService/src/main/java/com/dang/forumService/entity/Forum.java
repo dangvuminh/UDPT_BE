@@ -43,12 +43,12 @@ public class Forum {
 	
 	@NotNull
 	@Column(name = "category_id_fk")
-	private Integer category_id_fk;
+	private Integer categoryId;
 
 	public Forum() {
 	}
 
-	public Forum(Integer forum_id, String forum_name, String forum_content, String user_id_fk, Integer num_of_likes, boolean is_legal, Integer num_of_comments, String tags, Integer category_id_fk) {
+	public Forum(Integer forum_id, String forum_name, String forum_content, String user_id_fk, Integer num_of_likes, boolean is_legal, Integer num_of_comments, String tags, Integer categoryId) {
 		this.forum_id = forum_id;
 		this.forum_name = forum_name;
 		this.forum_content = forum_content;
@@ -57,11 +57,11 @@ public class Forum {
 		this.is_legal = is_legal;
 		this.num_of_comments = num_of_comments;
 		this.tags = tags;
-		this.category_id_fk = category_id_fk;
+		this.categoryId = categoryId;
 	}
 
 	public Integer getCategory_id_fk() {
-		return category_id_fk;
+		return categoryId;
 	}
 	
 	public String getForum_content() {
@@ -93,8 +93,8 @@ public class Forum {
 		return is_legal;
 	}
 	
-	public void setCategory_id_fk(Integer category_id_fk) {
-		this.category_id_fk = category_id_fk;
+	public void setCategory_id_fk(Integer categoryId) {
+		this.categoryId = categoryId;
 	}
 	
 	public void setForum_content(String forum_content) {
