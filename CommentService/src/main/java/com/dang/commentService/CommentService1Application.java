@@ -17,7 +17,7 @@ public class CommentService1Application {
 
 	@Bean
 	@LoadBalanced
-	public RestTemplate restTemplate(){
+	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
 	}
 }
