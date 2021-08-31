@@ -17,7 +17,12 @@ spring:
       - id: comment-service
         uri: lb://COMMENT-SERVICE
         predicates:
-            - Path=/api/comment/**
+          - Path=/api/comment/**
+
+      - id: tag-service
+        uri: lb://TAG-SERVICE
+        predicates:
+          - Path=/api/tag/**
 
 
 eureka:
