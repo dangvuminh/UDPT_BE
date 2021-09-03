@@ -32,7 +32,8 @@ public class ForumService {
 	private List<Forum> mapForumsWithComments(List<Forum> forumList) {
 		return forumList.stream().map((q) -> {
 			NumberOfComments num = restTemplate.getForObject("http://COMMENT-SERVICE/api/comment/count_comment_by_forum/" + q.getForum_id(), NumberOfComments.class);
-				return new Forum(q.getForum_id(),q.getForum_name(),q.getForum_content(),q.getUser_id_fk(),num.getNumberOfComments(),q.isIs_legal(),q.getNum_of_comments(),q.getTagList(),q.getCategory_id_fk());
+			Integer numOfLike = getNumOfLike(q.getForum_id());
+				return new Forum(q.getForum_id(),q.getForum_name(),q.getForum_content(),q.getUser_id_fk(),numOfLike,q.isIs_legal(),num.getNumberOfComments(),q.getTagList(),q.getCategory_id_fk());
 		}).collect(Collectors.toList());
 	}
 	boolean doesUserLikeForum(String userId,Integer forumId) {
@@ -112,10 +113,15 @@ public class ForumService {
 		} else {
 			Optional<LikeForum> existing = likeForumRepository.findByUserIdAndForumId(likeForum.getUserId(),likeForum.getForumId());
 			likeForumRepository.updateLikedForum(likeForum.getUserId(),likeForum.getForumId(),!existing.get().isLiked());
-			if(existing.get().isLiked() == true)
+			if(existing.get().isLiked() == false)
 			return new ForumResponse("liked","You have liked this forum",204);
 			return new ForumResponse("unliked","You have unliked this forum",204);
 		}
+	}
+
+	public Integer getNumOfLike(Integer forumId) {
+		Integer numOfLike = likeForumRepository.countByForumIdAndIsLikedEquals(forumId,true);
+		return numOfLike;
 	}
 
 }

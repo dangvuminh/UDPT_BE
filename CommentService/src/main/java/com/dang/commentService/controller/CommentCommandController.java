@@ -1,6 +1,7 @@
 package com.dang.commentService.controller;
 
 import com.dang.commentService.entity.CommentResponse;
+import com.dang.commentService.entity.LikeComment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,5 +20,10 @@ public class CommentCommandController {
 	@PostMapping("/create_comment")
 	public CommentResponse createComment(@RequestBody Comment comment) {
 		return commentService.createComment(comment);
+	}
+
+	@PostMapping("/like_comment")
+	public CommentResponse likeComment(@RequestBody LikeComment likeComment) {
+		return commentService.likeComment(likeComment);
 	}
 }
