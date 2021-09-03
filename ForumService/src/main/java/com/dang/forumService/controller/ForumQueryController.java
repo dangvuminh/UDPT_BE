@@ -10,22 +10,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/forum")
 public class ForumQueryController {
     @Autowired
-    ForumService forumService;
+    private ForumService forumService;
 
-    @GetMapping("/get_questions")
-    public List<Forum> getQuestionList(){
-        return forumService.getQuestionList();
+    @GetMapping("/get_illegal_questions")
+    public List<Forum> getIllegalQuestionList(){
+        return forumService.getIllegalQuestionList();
     }
 
-    @GetMapping("/get_questions/{categoryId}")
-    public List<Forum> getQuestionListByCategory(@PathVariable Integer categoryId){
-        return forumService.getQuestionListByCategory(categoryId);
+    @GetMapping("/get_illegal_questions/{categoryId}")
+    public List<Forum> getIllegalQuestionListByCategory(@PathVariable Integer categoryId){
+        return forumService.getIllegalQuestionListByCategory(categoryId);
+    }
+
+    @GetMapping("/get_legal_questions")
+    public List<Forum> getLegalQuestionList(){
+        return forumService.getLegalQuestionList();
+    }
+
+    @GetMapping("/get_legal_questions/{categoryId}")
+    public List<Forum> getLegalQuestionListByCategory(@PathVariable Integer categoryId){
+        return forumService.getLegalQuestionListByCategory(categoryId);
     }
 
     @GetMapping("/is_forum_existed/{forum_id}")

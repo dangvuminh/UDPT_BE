@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface ForumRepository extends JpaRepository<Forum,Integer>{
 	List<Forum> findByCategoryIdEquals(Integer categoryId);
+	List<Forum>  findAllByIsLegalEquals(boolean isLegal);
+	List<Forum> findAllByCategoryIdAndIsLegal(Integer categoryId,boolean isLegal);
 }

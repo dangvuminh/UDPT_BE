@@ -15,6 +15,9 @@ public class Tag {
     @Column(name="tag_name")
     private String tagName;
 
+    @Column(name="tag_discription")
+    private String tagDiscription;
+
     public Tag() {
     }
 
@@ -32,5 +35,13 @@ public class Tag {
 
     public void setTagName(String tagName) {
         this.tagName = tagName;
+    }
+
+    public String getTagDiscription() {
+        return tagDiscription;
+    }
+
+    public void setTagDiscription(String tagDiscription) {
+        this.tagDiscription = tagDiscription;
     }
 }

@@ -50,4 +50,8 @@ public class UserService {
 		}
 		return new UserResponse("user not found","The user is not existing",404);
 	}
+
+	public List<User> getUserList() {
+		return userRepository.findAll();
+	}
 }

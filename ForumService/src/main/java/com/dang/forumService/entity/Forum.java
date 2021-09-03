@@ -7,16 +7,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 
-@Table
+
 @Entity
+@Table(name="Forum")
 public class Forum {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "forum_id")
 	private Integer forum_id;
-	
+
 	@NotNull
 	@Column(name = "forum_name")
 	private String forum_name;
@@ -33,32 +35,35 @@ public class Forum {
 	private Integer num_of_likes;
 	
 	@Column(name = "is_legal")
-	private boolean is_legal;
+	private boolean isLegal;
 	
 	@Column(name = "num_of_comments")
 	private Integer num_of_comments;
-	
+
 	@Column(name = "tags")
-	private String tags;
+	//@JsonProperty("DangVu")
+	private String tagList;
 	
 	@NotNull
 	@Column(name = "category_id_fk")
 	private Integer categoryId;
 
+
 	public Forum() {
 	}
 
-	public Forum(Integer forum_id, String forum_name, String forum_content, String user_id_fk, Integer num_of_likes, boolean is_legal, Integer num_of_comments, String tags, Integer categoryId) {
+	public Forum(Integer forum_id, String forum_name, String forum_content, String user_id_fk, Integer num_of_likes, boolean is_legal, Integer num_of_comments, String tagList, Integer categoryId) {
 		this.forum_id = forum_id;
 		this.forum_name = forum_name;
 		this.forum_content = forum_content;
 		this.user_id_fk = user_id_fk;
 		this.num_of_likes = num_of_likes;
-		this.is_legal = is_legal;
+		this.isLegal = is_legal;
 		this.num_of_comments = num_of_comments;
-		this.tags = tags;
+		this.tagList = tagList;
 		this.categoryId = categoryId;
 	}
+
 
 	public Integer getCategory_id_fk() {
 		return categoryId;
@@ -84,13 +89,8 @@ public class Forum {
 		return num_of_likes;
 	}
 	
-	public String getTag() {
-		return tags;
-	}
-	
-	
 	public boolean isIs_legal() {
-		return is_legal;
+		return isLegal;
 	}
 	
 	public void setCategory_id_fk(Integer categoryId) {
@@ -108,10 +108,17 @@ public class Forum {
 	public void setForum_name(String forum_name) {
 		this.forum_name = forum_name;
 	}
-	
-	
-	public void setIs_legal(boolean is_legal) {
-		this.is_legal = is_legal;
+
+	public String getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(String tagList) {
+		this.tagList = tagList;
+	}
+
+	public void setIs_legal(boolean isLegal) {
+		this.isLegal = isLegal;
 	}
 	
 	public void setNum_of_comments(Integer num_of_comments) {
@@ -121,10 +128,7 @@ public class Forum {
 	public void setNum_of_likes(Integer num_of_likes) {
 		this.num_of_likes = num_of_likes;
 	}
-	
-	public void setTag(String tags) {
-		this.tags = tags;
-	}
+
 	
 	public String getUser_id_fk() {
 		return user_id_fk;
