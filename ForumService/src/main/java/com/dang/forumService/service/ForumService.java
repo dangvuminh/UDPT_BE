@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.dang.forumService.entity.*;
 import com.dang.forumService.repository.CategoryRepository;
+import com.dang.forumService.repository.LikeForumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class ForumService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+
+	@Autowired
+	private LikeForumRepository likeForumRepository;
 	
 	@Autowired
 	private RestTemplate restTemplate;
@@ -31,13 +35,18 @@ public class ForumService {
 				return new Forum(q.getForum_id(),q.getForum_name(),q.getForum_content(),q.getUser_id_fk(),num.getNumberOfComments(),q.isIs_legal(),q.getNum_of_comments(),q.getTagList(),q.getCategory_id_fk());
 		}).collect(Collectors.toList());
 	}
-
+	boolean doesUserLikeForum(String userId,Integer forumId) {
+		Optional<LikeForum> doesUserLikeForum = likeForumRepository.findByUserIdAndForumId(userId,forumId);
+		if(doesUserLikeForum.isPresent()) {
+			return true;
+		}
+		return false;
+	}
 	public ForumResponse createQuestion(Forum forum) {
 			forum.setNum_of_likes(0);
 			forum.setNum_of_comments(0);
 			forum.setIs_legal(false);
 			Optional<Category> category = categoryRepository.findById(forum.getCategory_id_fk());
-			System.out.println(forum.getTagList());
 			ForumResponse res = restTemplate.getForObject("http://USER-SERVICE/api/user/validate/" + forum.getUser_id_fk(), ForumResponse.class);
 			if(res.getStatusCode() == 204 && category.isPresent()) {
 				if(forum.getTagList() != null) {
@@ -87,6 +96,26 @@ public class ForumService {
 	public List<Forum> getLegalQuestionListByCategory(Integer categoryId){
 		List<Forum> forumList = forumRepository.findAllByCategoryIdAndIsLegal(categoryId,true);
 		return mapForumsWithComments(forumList);
+	}
+
+	public ForumResponse likeForum(LikeForum likeForum) {
+		if(doesUserLikeForum(likeForum.getUserId(),likeForum.getForumId()) == false) {
+			Optional<Forum> isForumExisted = forumRepository.findById(likeForum.getForumId());
+			ForumResponse isUserExisted = restTemplate.getForObject("http://USER-SERVICE/api/user/validate/" + likeForum.getUserId(), ForumResponse.class);
+			if(isForumExisted.isPresent() && isUserExisted.getStatusCode() == 204) {
+				likeForum.setLiked(true);
+				likeForumRepository.save(likeForum);
+				return new ForumResponse("liked","You have liked this forum",204);
+			} else {
+				return new ForumResponse("failed to like","Forum or user can't be found",404);
+			}
+		} else {
+			Optional<LikeForum> existing = likeForumRepository.findByUserIdAndForumId(likeForum.getUserId(),likeForum.getForumId());
+			likeForumRepository.updateLikedForum(likeForum.getUserId(),likeForum.getForumId(),!existing.get().isLiked());
+			if(existing.get().isLiked() == true)
+			return new ForumResponse("liked","You have liked this forum",204);
+			return new ForumResponse("unliked","You have unliked this forum",204);
+		}
 	}
 
 }
