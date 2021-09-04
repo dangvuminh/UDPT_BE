@@ -124,4 +124,14 @@ public class ForumService {
 		return numOfLike;
 	}
 
+	public ForumResponse deleteForum(DeleteForum deleteForum) {
+		Optional<Forum> isForumExisted = forumRepository.findById(deleteForum.getForumId());
+		ForumResponse isUserExisted = restTemplate.getForObject("http://USER-SERVICE/api/user/validate/" + deleteForum.getUserId(), ForumResponse.class);
+		if(isForumExisted.isPresent() &&  isUserExisted.getStatusCode() == 204) {
+			forumRepository.deleteByForumIdAndUserId(deleteForum.getForumId(),deleteForum.getUserId());
+			return new ForumResponse("deleted","This forum has been deleted",204);
+		}
+		return new ForumResponse("fail to delete","This forum can't be deleted",403);
+	}
+
 }

@@ -17,19 +17,19 @@ public class Forum {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "forum_id")
-	private Integer forum_id;
+	private Integer forumId;
 
 	@NotNull
 	@Column(name = "forum_name")
-	private String forum_name;
+	private String forumName;
 	
 	@NotNull
 	@Column(name = "forum_content")
-	private String forum_content;
+	private String forumContent;
 	
 	@NotNull
 	@Column(name = "user_id_fk")
-	private String user_id_fk;
+	private String userId;
 	
 	@Column(name = "num_of_likes")
 	private Integer num_of_likes;
@@ -53,10 +53,10 @@ public class Forum {
 	}
 
 	public Forum(Integer forum_id, String forum_name, String forum_content, String user_id_fk, Integer num_of_likes, boolean is_legal, Integer num_of_comments, String tagList, Integer categoryId) {
-		this.forum_id = forum_id;
-		this.forum_name = forum_name;
-		this.forum_content = forum_content;
-		this.user_id_fk = user_id_fk;
+		this.forumId = forum_id;
+		this.forumName = forum_name;
+		this.forumContent = forum_content;
+		this.userId = user_id_fk;
 		this.num_of_likes = num_of_likes;
 		this.isLegal = is_legal;
 		this.num_of_comments = num_of_comments;
@@ -70,15 +70,15 @@ public class Forum {
 	}
 	
 	public String getForum_content() {
-		return forum_content;
+		return forumContent;
 	}
 	
 	public Integer getForum_id() {
-		return forum_id;
+		return forumId;
 	}
 	
 	public String getForum_name() {
-		return forum_name;
+		return forumName;
 	}
 	
 	public Integer getNum_of_comments() {
@@ -98,15 +98,15 @@ public class Forum {
 	}
 	
 	public void setForum_content(String forum_content) {
-		this.forum_content = forum_content;
+		this.forumContent = forum_content;
 	}
 	
 	public void setForum_id(Integer forum_id) {
-		this.forum_id = forum_id;
+		this.forumId = forum_id;
 	}
 	
 	public void setForum_name(String forum_name) {
-		this.forum_name = forum_name;
+		this.forumName = forum_name;
 	}
 
 	public String getTagList() {
@@ -131,10 +131,10 @@ public class Forum {
 
 	
 	public String getUser_id_fk() {
-		return user_id_fk;
+		return userId;
 	}
 	
 	public void setUser_id_fk(String user_id_fk) {
-		this.user_id_fk = user_id_fk;
+		this.userId = user_id_fk;
 	}
 }

@@ -1,15 +1,9 @@
 package com.dang.forumService.controller;
 
-import com.dang.forumService.entity.Category;
-import com.dang.forumService.entity.LikeForum;
+import com.dang.forumService.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.dang.forumService.entity.Forum;
-import com.dang.forumService.entity.ForumResponse;
 import com.dang.forumService.service.ForumService;
 
 @RestController
@@ -34,4 +28,9 @@ public class ForumCommandController {
 		return forumService.likeForum(likeForum);
 	}
 
+
+	@DeleteMapping("/delete_forum")
+	public ForumResponse deleteForum(@RequestBody DeleteForum deleteForum) {
+		return forumService.deleteForum(deleteForum);
+	}
 }
