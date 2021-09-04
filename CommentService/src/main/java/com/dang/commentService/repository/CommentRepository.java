@@ -21,4 +21,11 @@ public interface CommentRepository extends JpaRepository<Comment,Integer>{
     @Modifying
     @Transactional
     void deleteByForumIdAndUserIdAndCommentId(Integer forumId, String userId,Integer commentId);
+
+    @Modifying
+    @Transactional
+    @Query("update Comment c set c.commentContent = ?4 where c.commentId = ?1 and c.userId = ?2 and c.forumId = ?3")
+    void updateCommentByIdAndUserIdAndForumId(Integer commentId,String userId,Integer forumId,String commentContent);
+
+    Integer countByUserIdEquals(String userId);
 }

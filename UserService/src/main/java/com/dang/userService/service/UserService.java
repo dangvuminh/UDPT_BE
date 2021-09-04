@@ -4,14 +4,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.dang.userService.entity.UserInfo;
-import com.dang.userService.entity.UserSignIn;
+import com.dang.userService.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.dang.userService.entity.User;
-import com.dang.userService.entity.UserResponse;
 import com.dang.userService.repository.UserRepository;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -53,5 +50,14 @@ public class UserService {
 
 	public List<User> getUserList() {
 		return userRepository.findAll();
+	}
+
+	public UserResponse updateProfile(UpdateProfile updateProfile) {
+		Optional<User> isUserExisted = userRepository.findById(updateProfile.getUserId());
+		if(isUserExisted.isPresent()){
+			userRepository.updateProfile(updateProfile.getUserId(),updateProfile.getFirstName(),updateProfile.getLastName(),updateProfile.getUserName(),updateProfile.getEmail());
+			return  new UserResponse("updated","User profile has been updated",204);
+		}
+		return  new UserResponse("fail to update","User profile can't be updated.One or more input field is invalid",404);
 	}
 }

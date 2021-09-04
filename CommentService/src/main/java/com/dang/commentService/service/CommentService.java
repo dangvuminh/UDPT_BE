@@ -74,4 +74,18 @@ public class CommentService {
 		}
 		return new CommentResponse("fail to delete","This comment can't be deleted.One ore more input field is invalid",403);
 	}
+
+	public CommentResponse updateComment(UpdateComment updateComment) {
+
+		Optional<Comment> isCommentExisted = commentRepository.findByCommentIdAndUserIdAndForumId(updateComment.getCommentId(),updateComment.getUserId(),updateComment.getForumId());
+		if(isCommentExisted.isPresent()) {
+			commentRepository.updateCommentByIdAndUserIdAndForumId(updateComment.getCommentId(),updateComment.getUserId(),updateComment.getForumId(),updateComment.getCommentContent());
+			return new CommentResponse("updated","This comment has been updated",204);
+		}
+		return new CommentResponse("fail to update","This comment can't be updated.One ore more input field is invalid",403);
+	}
+
+	public Integer getNumOfCommentsByUser(String userId) {
+		return commentRepository.countByUserIdEquals(userId);
+	}
 }

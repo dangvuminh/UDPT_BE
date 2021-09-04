@@ -16,4 +16,9 @@ public class CommentQueryController {
     public NumberOfComments countComments(@PathVariable Integer forum_id) {
         return commentService.countCommentByForum(forum_id);
     }
+
+    @GetMapping("/num_of_comments/{userId}")
+    public Integer getNumOfCommentsByUser(@PathVariable String userId){
+        return commentService.getNumOfCommentsByUser(userId);
+    }
 }

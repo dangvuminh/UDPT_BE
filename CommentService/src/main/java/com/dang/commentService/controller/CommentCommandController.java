@@ -1,12 +1,9 @@
 package com.dang.commentService.controller;
 
-import com.dang.commentService.entity.CommentResponse;
-import com.dang.commentService.entity.DeleteComment;
-import com.dang.commentService.entity.LikeComment;
+import com.dang.commentService.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.dang.commentService.entity.Comment;
 import com.dang.commentService.service.CommentService;
 
 @RestController
@@ -28,5 +25,10 @@ public class CommentCommandController {
 	@DeleteMapping("/delete_comment")
 	public CommentResponse deleteComment(@RequestBody DeleteComment deleteComment) {
 		return commentService.deleteComment(deleteComment);
+	}
+
+	@PutMapping("/update_comment")
+	public CommentResponse updateComment(@RequestBody UpdateComment updateComment) {
+		return commentService.updateComment(updateComment);
 	}
 }

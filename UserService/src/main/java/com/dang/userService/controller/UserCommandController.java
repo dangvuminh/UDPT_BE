@@ -1,13 +1,8 @@
 package com.dang.userService.controller;
 
-import com.dang.userService.entity.UserInfo;
-import com.dang.userService.entity.UserSignIn;
+import com.dang.userService.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.dang.userService.entity.User;
+import org.springframework.web.bind.annotation.*;
 import com.dang.userService.service.UserService;
 
 import java.util.Optional;
@@ -27,5 +22,10 @@ public class UserCommandController {
 	@PostMapping("/signIn")
 	public Optional<UserInfo> signIn(@RequestBody UserSignIn user) {
 		return userService.signIn(user);
+	}
+
+	@PutMapping("/update_profile")
+	public UserResponse updateProfile(@RequestBody UpdateProfile updateProfile) {
+		return userService.updateProfile(updateProfile);
 	}
 }
