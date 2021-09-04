@@ -1,13 +1,10 @@
 package com.dang.commentService.service;
 
-import com.dang.commentService.entity.CommentResponse;
-import com.dang.commentService.entity.LikeComment;
-import com.dang.commentService.entity.NumberOfComments;
+import com.dang.commentService.entity.*;
 import com.dang.commentService.repository.LikeCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dang.commentService.entity.Comment;
 import com.dang.commentService.repository.CommentRepository;
 import org.springframework.web.client.RestTemplate;
 
@@ -32,8 +29,8 @@ public class CommentService {
 		return false;
 	}
 	public CommentResponse createComment(Comment comment) {
-		CommentResponse isUserExisted = restTemplate.getForObject("http://USER-SERVICE/api/user/validate/" + comment.getUser_id_fk(), CommentResponse.class);
-		CommentResponse isForumExisted = restTemplate.getForObject("http://FORUM-SERVICE/api/forum/is_forum_existed/" + comment.getForum_id_fk(), CommentResponse.class);
+		CommentResponse isUserExisted = restTemplate.getForObject("http://USER-SERVICE/api/user/validate/" + comment.getUserId(), CommentResponse.class);
+		CommentResponse isForumExisted = restTemplate.getForObject("http://FORUM-SERVICE/api/forum/is_forum_existed/" + comment.getForumId(), CommentResponse.class);
 		if(isUserExisted.getStatusCode() == 204 && isForumExisted.getStatusCode() == 204) {
 			comment.setNum_of_likes(0);
 			commentRepository.save(comment);
@@ -66,5 +63,15 @@ public class CommentService {
 				return new CommentResponse("liked comment","You have liked this comment",204);
 				return new CommentResponse("unliked comment","You have unliked this comment",204);
 		}
+	}
+
+	public CommentResponse deleteComment(DeleteComment deleteComment) {
+
+		Optional<Comment> isCommentExisted = commentRepository.findByCommentIdAndUserIdAndForumId(deleteComment.getCommentId(),deleteComment.getUserId(),deleteComment.getForumId());
+		if(isCommentExisted.isPresent()) {
+			commentRepository.deleteByForumIdAndUserIdAndCommentId(deleteComment.getForumId(),deleteComment.getUserId(),deleteComment.getCommentId());
+			return new CommentResponse("deleted","This comment has been deleted",204);
+		}
+		return new CommentResponse("fail to delete","This comment can't be deleted.One ore more input field is invalid",403);
 	}
 }

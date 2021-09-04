@@ -71,12 +71,12 @@ public class ForumService {
 		return new ForumResponse("category created","A new category is created",204);
 	}
 
-	public ForumResponse isCategoryExisted(Integer forum_id) {
+	public ForumResponse isForumExisted(Integer forum_id) {
 		Optional<Forum> isForumExisted = forumRepository.findById(forum_id);
 		if(isForumExisted.isPresent()) {
-			return new ForumResponse("category found","This category can be used",204);
+			return new ForumResponse("forum found","This forum can be used",204);
 		}
-		return new ForumResponse("category not found","This category can't be used",404);
+		return new ForumResponse("forum not found","This forum can't be used",404);
 	}
 
 	public List<Forum> getIllegalQuestionList(){

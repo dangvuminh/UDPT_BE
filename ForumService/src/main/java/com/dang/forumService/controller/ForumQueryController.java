@@ -39,6 +39,6 @@ public class ForumQueryController {
 
     @GetMapping("/is_forum_existed/{forum_id}")
     public ForumResponse isForumExisted(@PathVariable Integer forum_id){
-       return forumService.isCategoryExisted(forum_id);
+       return forumService.isForumExisted(forum_id);
     }
 }

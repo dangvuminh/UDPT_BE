@@ -10,7 +10,7 @@ public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "comment_id")
-	private Integer comment_id;
+	private Integer commentId;
 
 	@NotNull
 	@Column(name = "forum_id_fk")
@@ -18,53 +18,52 @@ public class Comment {
 	
 	@NotNull
 	@Column(name = "user_id_fk")
-	private String user_id_fk;
+	private String userId;
 	
 	@Column(name = "num_of_likes")
 	private Integer num_of_likes;
-	
+
+	@NotNull
 	@Column(name = "comment_content")
-	private String comment_content;
-	
-	public String getComment_content() {
-		return comment_content;
+	private String commentContent;
+
+	public Integer getCommentId() {
+		return commentId;
 	}
-	
-	public Integer getComment_id() {
-		return comment_id;
+
+	public void setCommentId(Integer commentId) {
+		this.commentId = commentId;
 	}
-	
-	public Integer getForum_id_fk() {
+
+	public Integer getForumId() {
 		return forumId;
 	}
-	
+
+	public void setForumId(Integer forumId) {
+		this.forumId = forumId;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	public Integer getNum_of_likes() {
 		return num_of_likes;
 	}
-	
-	public String getUser_id_fk() {
-		return user_id_fk;
-	}
-	
-	public void setComment_content(String comment_content) {
-		this.comment_content = comment_content;
-	}
-	
-	public void setComment_id(Integer comment_id) {
-		this.comment_id = comment_id;
-	}
-	
-	public void setForum_id_fk(Integer forumId) {
-		this.forumId = forumId;
-	}
-	
+
 	public void setNum_of_likes(Integer num_of_likes) {
 		this.num_of_likes = num_of_likes;
 	}
-	
-	public void setUser_id_fk(String user_id_fk) {
-		this.user_id_fk = user_id_fk;
+
+	public String getCommentContent() {
+		return commentContent;
 	}
-	
-	
+
+	public void setCommentContent(String commentContent) {
+		this.commentContent = commentContent;
+	}
 }
