@@ -21,4 +21,14 @@ public class CommentQueryController {
     public Integer getNumOfCommentsByUser(@PathVariable String userId){
         return commentService.getNumOfCommentsByUser(userId);
     }
+
+    @GetMapping("/get_likes_of_comment/{forumId}/{commentId}")
+    public Integer getLikeOfComment(@PathVariable Integer forumId,@PathVariable Integer commentId){
+        return commentService.getLikeOfComment(forumId,commentId);
+    }
+
+    @GetMapping("/get_likes_of_user/{userId}")
+    public Integer getLikeOfUser(@PathVariable String userId){
+        return commentService.getLikeOfUser(userId);
+    }
 }

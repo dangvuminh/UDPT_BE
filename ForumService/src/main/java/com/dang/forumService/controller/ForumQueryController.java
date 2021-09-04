@@ -41,4 +41,14 @@ public class ForumQueryController {
     public ForumResponse isForumExisted(@PathVariable Integer forum_id){
        return forumService.isForumExisted(forum_id);
     }
+
+    @GetMapping("/get_likes_of_forum/{forumId}")
+    public Integer getLikeOfForum(@PathVariable Integer forumId){
+        return forumService.getLikeOfForum(forumId);
+    }
+
+    @GetMapping("/get_likes_of_user/{userId}")
+    public Integer getLikeOfUser(@PathVariable String userId){
+        return forumService.getLikeOfUser(userId);
+    }
 }

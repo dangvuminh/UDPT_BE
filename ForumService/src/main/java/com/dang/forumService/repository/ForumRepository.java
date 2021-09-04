@@ -20,4 +20,11 @@ public interface ForumRepository extends JpaRepository<Forum,Integer>{
 	@Modifying
 	@Transactional
 	void deleteByForumIdAndUserId(Integer forumId, String userId);
+
+	@Modifying
+	@Transactional
+	@Query("update Forum f set f.num_of_likes = ?2 where f.forumId = ?1")
+	void updateLikeOfForum(Integer forumId,Integer likes);
+
+	List<Forum> findAllByUserId(String userId);
 }

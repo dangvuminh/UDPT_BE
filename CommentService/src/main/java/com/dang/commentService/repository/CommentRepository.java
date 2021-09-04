@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.dang.commentService.entity.Comment;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -27,5 +28,13 @@ public interface CommentRepository extends JpaRepository<Comment,Integer>{
     @Query("update Comment c set c.commentContent = ?4 where c.commentId = ?1 and c.userId = ?2 and c.forumId = ?3")
     void updateCommentByIdAndUserIdAndForumId(Integer commentId,String userId,Integer forumId,String commentContent);
 
+    @Modifying
+    @Transactional
+    @Query("update Comment c set c.num_of_likes = ?3 where c.commentId = ?1 and c.forumId = ?2")
+    void updateLikeOfComment(Integer commentId,Integer forumId,Integer likes);
+
     Integer countByUserIdEquals(String userId);
+
+    List<Comment> findAllByUserId(String userId);
+
 }

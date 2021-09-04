@@ -99,6 +99,19 @@ public class ForumService {
 		return mapForumsWithComments(forumList);
 	}
 
+	public Integer getLikeOfForum(Integer forumId) {
+		return likeForumRepository.countByForumId(forumId);
+	}
+
+	public Integer getLikeOfUser(String userId) {
+		List<Forum> forumList = forumRepository.findAllByUserId(userId);
+		Integer total = 0;
+		for(Forum f:forumList){
+			total += f.getNum_of_likes();
+		}
+		return total;
+	}
+
 	public ForumResponse likeForum(LikeForum likeForum) {
 		if(doesUserLikeForum(likeForum.getUserId(),likeForum.getForumId()) == false) {
 			Optional<Forum> isForumExisted = forumRepository.findById(likeForum.getForumId());
@@ -106,6 +119,7 @@ public class ForumService {
 			if(isForumExisted.isPresent() && isUserExisted.getStatusCode() == 204) {
 				likeForum.setLiked(true);
 				likeForumRepository.save(likeForum);
+				forumRepository.updateLikeOfForum(likeForum.getForumId(),getLikeOfForum(likeForum.getForumId()));
 				return new ForumResponse("liked","You have liked this forum",204);
 			} else {
 				return new ForumResponse("failed to like","Forum or user can't be found",404);
@@ -113,6 +127,7 @@ public class ForumService {
 		} else {
 			Optional<LikeForum> existing = likeForumRepository.findByUserIdAndForumId(likeForum.getUserId(),likeForum.getForumId());
 			likeForumRepository.updateLikedForum(likeForum.getUserId(),likeForum.getForumId(),!existing.get().isLiked());
+			forumRepository.updateLikeOfForum(likeForum.getForumId(),getLikeOfForum(likeForum.getForumId()));
 			if(existing.get().isLiked() == false)
 			return new ForumResponse("liked","You have liked this forum",204);
 			return new ForumResponse("unliked","You have unliked this forum",204);

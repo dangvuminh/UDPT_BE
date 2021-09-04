@@ -17,4 +17,6 @@ public interface LikeForumRepository extends JpaRepository<LikeForum,Integer> {
     void updateLikedForum(String userId,Integer forumId,boolean isLiked);
 
     Integer countByForumIdAndIsLikedEquals(Integer forumId,boolean isLiked);
+
+    Integer countByForumId(Integer forumId);
 }

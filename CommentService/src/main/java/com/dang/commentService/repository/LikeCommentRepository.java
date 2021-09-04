@@ -15,4 +15,6 @@ public interface LikeCommentRepository extends JpaRepository<LikeComment,Integer
     @Transactional
     @Query("update LikeComment l set l.isLiked = ?4 where l.commentId = ?1 and l.userId = ?2 and l.forumId = ?3")
     void updateLikeComment(Integer commentId, String userId, Integer forumId, boolean isLiked);
+
+    Integer countByCommentIdAndForumIdAndIsLikedEquals(Integer commentId,Integer forumId,boolean isLiked);
 }

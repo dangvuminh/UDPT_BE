@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.dang.commentService.repository.CommentRepository;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,19 @@ public class CommentService {
 			return true;
 		}
 		return false;
+	}
+
+	public Integer getLikeOfComment(Integer forumId,Integer commentId) {
+		return likeCommentRepository.countByCommentIdAndForumIdAndIsLikedEquals(commentId,forumId,true);
+	}
+
+	public Integer getLikeOfUser(String userId) {
+		List<Comment> comments = commentRepository.findAllByUserId(userId);
+		Integer total = 0;
+		for(Comment com:comments) {
+			total += com.getNum_of_likes();
+		}
+		return total;
 	}
 	public CommentResponse createComment(Comment comment) {
 		CommentResponse isUserExisted = restTemplate.getForObject("http://USER-SERVICE/api/user/validate/" + comment.getUserId(), CommentResponse.class);
@@ -48,10 +62,12 @@ public class CommentService {
 		if(doesUserLikeComment(likeComment.getCommentId(),likeComment.getUserId(),likeComment.getForumId()) == false) {
 			CommentResponse isUserExisted = restTemplate.getForObject("http://USER-SERVICE/api/user/validate/" + likeComment.getUserId(), CommentResponse.class);
 			CommentResponse isForumExisted = restTemplate.getForObject("http://FORUM-SERVICE/api/forum/is_forum_existed/" + likeComment.getForumId(), CommentResponse.class);
-
-			if(isUserExisted.getStatusCode() == 204 && isForumExisted.getStatusCode() == 204) {
+			Optional<Comment> isCommentExisted = commentRepository.findByCommentIdAndUserIdAndForumId(likeComment.getCommentId(),likeComment.getUserId(),likeComment.getForumId());
+			if(isUserExisted.getStatusCode() == 204 && isForumExisted.getStatusCode() == 204 && isCommentExisted.isPresent()) {
 				likeComment.setLiked(true);
 				likeCommentRepository.save(likeComment);
+				commentRepository.updateLikeOfComment(likeComment.getCommentId(),likeComment.getForumId(),
+						getLikeOfComment(likeComment.getForumId(),likeComment.getCommentId()));
 				return new CommentResponse("liked comment","You have liked this comment",204);
 			} else {
 				return new CommentResponse("failed to like","User or forum or comment has not been not existing",404);
@@ -59,8 +75,11 @@ public class CommentService {
 		} else {
 			Optional<LikeComment> existing = likeCommentRepository.findByCommentIdAndUserIdAndForumId(likeComment.getCommentId(),likeComment.getUserId(),likeComment.getForumId());
 			likeCommentRepository.updateLikeComment(likeComment.getCommentId(),likeComment.getUserId(),likeComment.getForumId(),!existing.get().isLiked());
-			if(existing.get().isLiked() == false)
+			commentRepository.updateLikeOfComment(likeComment.getCommentId(),likeComment.getForumId(),
+					getLikeOfComment(likeComment.getForumId(),likeComment.getCommentId()));
+			if(existing.get().isLiked() == false){
 				return new CommentResponse("liked comment","You have liked this comment",204);
+			}
 				return new CommentResponse("unliked comment","You have unliked this comment",204);
 		}
 	}
