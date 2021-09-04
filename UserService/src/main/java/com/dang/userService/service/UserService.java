@@ -3,6 +3,7 @@ package com.dang.userService.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.dang.userService.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +11,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.dang.userService.repository.UserRepository;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
 public class UserService {
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
+
+	@Autowired
+	private RestTemplate restTemplate;
+	private List<User> mapUserWithComments(List<User> userList) {
+		return userList.stream().map((q) -> {
+			NumberOfComments num = restTemplate.getForObject("http://COMMENT-SERVICE/api/comment/num_of_comments/" + q.getUser_id(), NumberOfComments.class);
+			return new User(q.getUser_id(),q.getUsername(),q.getPassword(),q.getFirst_name(),q.getLast_name(),q.getEmail(),q.getProfile_img(),q.isIs_admin(),num.getNumberOfComments());
+		}).collect(Collectors.toList());
+	}
+
 	public void signUp(User user) {
 		Optional<User> isUserExisted = userRepository.findUserByUsername(user.getUsername());
 		if(isUserExisted.isPresent()) {
@@ -49,7 +61,9 @@ public class UserService {
 	}
 
 	public List<User> getUserList() {
-		return userRepository.findAll();
+
+		List<User> userList = userRepository.findAll();
+		return mapUserWithComments(userList);
 	}
 
 	public UserResponse updateProfile(UpdateProfile updateProfile) {

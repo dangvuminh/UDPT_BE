@@ -43,7 +43,25 @@ public class User {
 	@NotNull
 	@Column(name="is_admin")
 	private boolean is_admin;
-	
+
+	@Column(name="num_of_comments")
+	private Integer numOfComments;
+
+	public User() {
+
+	}
+	public User(String user_id, String username, String password, String first_name, String last_name, String email, String profile_img, boolean is_admin, Integer numOfComments) {
+		this.user_id = user_id;
+		this.username = username;
+		this.password = password;
+		this.first_name = first_name;
+		this.last_name = last_name;
+		this.email = email;
+		this.profile_img = profile_img;
+		this.is_admin = is_admin;
+		this.numOfComments = numOfComments;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -91,5 +109,13 @@ public class User {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public Integer getNumOfComments() {
+		return numOfComments;
+	}
+
+	public void setNumOfComments(Integer numOfComments) {
+		this.numOfComments = numOfComments;
 	}
 }
