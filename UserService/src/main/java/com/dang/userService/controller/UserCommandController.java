@@ -28,4 +28,9 @@ public class UserCommandController {
 	public UserResponse updateProfile(@RequestBody UpdateProfile updateProfile) {
 		return userService.updateProfile(updateProfile);
 	}
+
+	@PutMapping("/change_password")
+	public UserResponse changePassword(@RequestBody ChangePassword changePassword) {
+		return userService.changePassword(changePassword);
+	}
 }

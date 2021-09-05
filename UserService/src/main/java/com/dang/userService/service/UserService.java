@@ -74,4 +74,14 @@ public class UserService {
 		}
 		return  new UserResponse("fail to update","User profile can't be updated.One or more input field is invalid",404);
 	}
+
+	public UserResponse changePassword(ChangePassword changePassword) {
+		Optional<User> user = userRepository.findById(changePassword.getUserId());
+		System.out.println(user.get().getUser_id());
+		if(user.isPresent() && user.get().getPassword().equals(changePassword.getOldPassword())) {
+			userRepository.changePassword(changePassword.getUserId(),changePassword.getNewPassword());
+			return new UserResponse("password changed","You have changed the password",204);
+		}
+		return new UserResponse("failed to change","You can't changed the password.User or password are invalid",403);
+	}
 }
