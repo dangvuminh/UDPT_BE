@@ -1,14 +1,15 @@
 package com.dang.chartservice.service;
 
 import com.dang.chartservice.entity.Chart;
-import com.dang.chartservice.entity.NumberOfLikes;
 import com.dang.chartservice.entity.User;
-import com.dang.chartservice.entity.UserList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,14 +18,27 @@ public class ChartService {
     private RestTemplate restTemplate;
 
     public List<Chart> getChart() {
-       UserList res = restTemplate.getForObject("http://USER-SERVICE/api/user/get_users", UserList.class);
-       List<User> userList = res.getUserList();
-       return userList.stream().map((u) -> {
-           NumberOfLikes commentNumOfLikes = restTemplate.getForObject("http://COMMENT-SERVICE/api/comment/get_likes_of_user" + u.getUser_id(),NumberOfLikes.class);
-           NumberOfLikes forumNumOfLikes = restTemplate.getForObject("http://USER-SERVICE/api/comment/get_likes_of_user" + u.getUser_id(),NumberOfLikes.class);
-           Integer totalLikes = commentNumOfLikes.getNumOfLikes() + forumNumOfLikes.getNumOfLikes();
-           Integer points = totalLikes + u.getNumOfComments();
+        ResponseEntity<List<User>> userResponse =
+                restTemplate.exchange("http://USER-SERVICE/api/user/get_users",
+                        HttpMethod.GET, null, new ParameterizedTypeReference<List<User>>() {
+                        });
+        List<User> userList = userResponse.getBody();
+        List<Chart> chartList = userList.stream().map((u) -> {
+           ResponseEntity<Integer> commentRes =
+                   restTemplate.exchange("http://COMMENT-SERVICE/api/comment/get_likes_of_user/" + u.getUser_id(),
+                           HttpMethod.GET, null, new ParameterizedTypeReference<Integer>() {
+                           });
+           Integer commentNumOfLikes = commentRes.getBody();
+           ResponseEntity<Integer> forumRes =
+                   restTemplate.exchange("http://FORUM-SERVICE/api/forum/get_likes_of_user/" + u.getUser_id(),
+                           HttpMethod.GET, null, new ParameterizedTypeReference<Integer>() {
+                           });
+           Integer forumNumOfLikes = forumRes.getBody();
+           Integer totalLikes = commentNumOfLikes + forumNumOfLikes;
+           Double points = new Double(totalLikes*60)/100 + new Double(u.getNumOfComments()*40)/100 ;
            return new Chart(u.getUsername(),u.getNumOfComments(),totalLikes,points);
        }).collect(Collectors.toList());
+        Collections.sort(chartList,Comparator.comparingDouble(Chart ::getPoints).reversed());
+        return chartList;
     }
 }

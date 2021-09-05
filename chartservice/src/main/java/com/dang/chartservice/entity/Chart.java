@@ -22,12 +22,12 @@ public class Chart {
     private Integer numOfLikes;
 
     @Column(name="points")
-    private Integer points;
+    private Double points;
 
     public Chart() {
     }
 
-    public Chart(String username, Integer numOfComments, Integer numOfLikes, Integer points) {
+    public Chart(String username, Integer numOfComments, Integer numOfLikes, Double points) {
         this.chartId = chartId;
         this.username = username;
         this.numOfComments = numOfComments;
@@ -67,11 +67,11 @@ public class Chart {
         this.numOfLikes = numOfLikes;
     }
 
-    public Integer getPoints() {
+    public Double getPoints() {
         return points;
     }
 
-    public void setPoints(Integer points) {
+    public void setPoints(Double points) {
         this.points = points;
     }
 }
