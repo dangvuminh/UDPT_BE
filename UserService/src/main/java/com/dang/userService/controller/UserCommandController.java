@@ -33,4 +33,9 @@ public class UserCommandController {
 	public UserResponse changePassword(@RequestBody ChangePassword changePassword) {
 		return userService.changePassword(changePassword);
 	}
+
+	@PutMapping("/change_image")
+	public void changeImage(@RequestBody ChangeImage changeImage) {
+		 userService.changeImage(changeImage);
+	}
 }

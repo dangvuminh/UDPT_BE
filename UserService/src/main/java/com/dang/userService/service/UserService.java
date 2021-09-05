@@ -84,4 +84,8 @@ public class UserService {
 		}
 		return new UserResponse("failed to change","You can't changed the password.User or password are invalid",403);
 	}
+
+	public void changeImage(ChangeImage changeImage) {
+		userRepository.changeImage(changeImage.getUserId(),changeImage.getImgUrl());
+	}
 }
