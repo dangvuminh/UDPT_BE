@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import com.dang.userService.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class UserService {
 
 	@Autowired
 	private RestTemplate restTemplate;
+
 	private List<User> mapUserWithComments(List<User> userList) {
 		return userList.stream().map((q) -> {
 			NumberOfComments num = restTemplate.getForObject("http://COMMENT-SERVICE/api/comment/num_of_comments/" + q.getUser_id(), NumberOfComments.class);
@@ -36,6 +38,8 @@ public class UserService {
 		}
 		user.setUser_id(UUID.randomUUID().toString());
 		userRepository.save(user);
+		String message = user.getEmail() + "," + "A new account from Social Network" + "," + "Congratulations! You have created a new account in Social Network.Sign in and explore our content.Thank you";
+		restTemplate.getForObject("http://MAIL-SERVICE/api/mail/sendEmail" + "?msg=" + message,String.class);
 	}
 
 	public Optional<UserInfo> signIn(UserSignIn user){
@@ -77,7 +81,6 @@ public class UserService {
 
 	public UserResponse changePassword(ChangePassword changePassword) {
 		Optional<User> user = userRepository.findById(changePassword.getUserId());
-		System.out.println(user.get().getUser_id());
 		if(user.isPresent() && user.get().getPassword().equals(changePassword.getOldPassword())) {
 			userRepository.changePassword(changePassword.getUserId(),changePassword.getNewPassword());
 			return new UserResponse("password changed","You have changed the password",204);

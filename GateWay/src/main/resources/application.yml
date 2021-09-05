@@ -29,6 +29,11 @@ spring:
         predicates:
           - Path=/api/chart/**
 
+      - id: mail-service
+        uri: lb://MAIL-SERVICE
+        predicates:
+          - Path=/api/mail/**
+
 
 eureka:
   client:

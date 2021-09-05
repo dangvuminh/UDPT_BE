@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.dang.userService.service.UserService;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @RestController
@@ -13,7 +14,8 @@ public class UserCommandController {
 	
 	@Autowired
 	UserService userService;
-	
+
+	@Transactional
 	@PostMapping("/signUp")
 	public void signUp(@RequestBody User user) {
 		userService.signUp(user);
