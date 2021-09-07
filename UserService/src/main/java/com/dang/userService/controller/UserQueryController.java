@@ -11,6 +11,7 @@ import com.dang.userService.entity.UserResponse;
 import com.dang.userService.service.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
@@ -27,6 +28,11 @@ public class UserQueryController {
 	@GetMapping("/get_users")
 	public List<User> getUserList() {
 		return userService.getUserList();
+	}
+
+	@GetMapping("/is_admin/{userId}")
+	public UserResponse getAdmin(@PathVariable String userId) {
+		return userService.getAdmin(userId);
 	}
 }
 

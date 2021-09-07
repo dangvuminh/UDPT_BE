@@ -37,4 +37,6 @@ public interface CommentRepository extends JpaRepository<Comment,Integer>{
 
     List<Comment> findAllByUserId(String userId);
 
+    List<Comment> findAllByForumId(Integer forumId);
+
 }

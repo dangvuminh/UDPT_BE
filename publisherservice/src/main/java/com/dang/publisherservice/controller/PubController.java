@@ -1,6 +1,5 @@
 package com.dang.publisherservice.controller;
 
-import com.dang.publisherservice.entity.Message;
 import com.dang.publisherservice.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

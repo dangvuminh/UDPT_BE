@@ -27,4 +27,9 @@ public interface ForumRepository extends JpaRepository<Forum,Integer>{
 	void updateLikeOfForum(Integer forumId,Integer likes);
 
 	List<Forum> findAllByUserId(String userId);
+
+	@Modifying
+	@Transactional
+	@Query("update Forum f set f.isLegal = ?2 where f.forumId = ?1")
+	void legalizeForum(Integer forumId,boolean isLegal);
 }

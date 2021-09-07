@@ -91,4 +91,12 @@ public class UserService {
 	public void changeImage(ChangeImage changeImage) {
 		userRepository.changeImage(changeImage.getUserId(),changeImage.getImgUrl());
 	}
+
+	public UserResponse getAdmin(String userId) {
+		Optional<User> user = userRepository.findById(userId);
+		if (user.isPresent() && user.get().isIs_admin() == true) {
+			return new UserResponse("is admin","This user is Admin",204);
+		}
+		return new UserResponse("not found admin","This user is not Admin",404);
+	}
 }

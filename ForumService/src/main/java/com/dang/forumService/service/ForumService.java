@@ -8,7 +8,10 @@ import com.dang.forumService.entity.*;
 import com.dang.forumService.repository.CategoryRepository;
 import com.dang.forumService.repository.LikeForumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -147,6 +150,21 @@ public class ForumService {
 			return new ForumResponse("deleted","This forum has been deleted",204);
 		}
 		return new ForumResponse("fail to delete","This forum can't be deleted",403);
+	}
+
+	public ForumResponse legalizeForum(LegalizeForum legalizeForum) {
+		ForumResponse isAdmin = restTemplate.getForObject("http://USER-SERVICE/api/user/is_admin/" + legalizeForum.getUserId(),ForumResponse.class);
+		if(isAdmin.getStatusCode() == 204) {
+			Optional<Forum> forum = forumRepository.findById(legalizeForum.getForumId());
+			if(forum.isPresent()) {
+				forumRepository.legalizeForum(legalizeForum.getForumId(),!forum.get().isIs_legal());
+				if (forum.get().isIs_legal() == false)
+					return new ForumResponse("legalized","This forum has been legalized",204);
+				return new ForumResponse("illegalized","This forum has been illegalized",204);
+			}
+			return new ForumResponse("forum not found","This forum has not existing",404);
+		}
+		return new ForumResponse("fail to legalize","No permission to do that",403);
 	}
 
 }

@@ -107,4 +107,8 @@ public class CommentService {
 	public Integer getNumOfCommentsByUser(String userId) {
 		return commentRepository.countByUserIdEquals(userId);
 	}
+
+	public List<Comment> getComments(Integer forumId) {
+		return commentRepository.findAllByForumId(forumId);
+	}
 }

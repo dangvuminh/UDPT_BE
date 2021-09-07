@@ -1,10 +1,13 @@
 package com.dang.commentService.controller;
 
+import com.dang.commentService.entity.Comment;
 import com.dang.commentService.entity.NumberOfComments;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.dang.commentService.service.CommentService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/comment")
@@ -30,5 +33,10 @@ public class CommentQueryController {
     @GetMapping("/get_likes_of_user/{userId}")
     public Integer getLikeOfUser(@PathVariable String userId){
         return commentService.getLikeOfUser(userId);
+    }
+
+    @GetMapping("/get_comments/{forumId}")
+    public List<Comment> getComments(@PathVariable Integer forumId){
+        return commentService.getComments(forumId);
     }
 }

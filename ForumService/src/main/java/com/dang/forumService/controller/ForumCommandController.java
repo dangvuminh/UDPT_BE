@@ -28,7 +28,10 @@ public class ForumCommandController {
 		return forumService.likeForum(likeForum);
 	}
 
-
+	@PutMapping("/legalize_forum")
+	public ForumResponse legalizeForum(@RequestBody LegalizeForum legalizeForum) {
+		return forumService.legalizeForum(legalizeForum);
+	}
 	@DeleteMapping("/delete_forum")
 	public ForumResponse deleteForum(@RequestBody DeleteForum deleteForum) {
 		return forumService.deleteForum(deleteForum);

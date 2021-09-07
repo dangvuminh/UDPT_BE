@@ -1,6 +1,5 @@
 package com.dang.publisherservice.service;
 
-import com.dang.publisherservice.entity.Message;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
