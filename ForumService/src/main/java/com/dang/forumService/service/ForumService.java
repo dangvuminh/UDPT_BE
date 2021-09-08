@@ -1,5 +1,7 @@
 package com.dang.forumService.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -165,6 +167,29 @@ public class ForumService {
 			return new ForumResponse("forum not found","This forum has not existing",404);
 		}
 		return new ForumResponse("fail to legalize","No permission to do that",403);
+	}
+
+	public List<Forum> searchByTags(String tagList) {
+		List<String> tags = new ArrayList<>(Arrays.asList(tagList.split(",")));
+		List<Forum> newList = new ArrayList<>();
+
+		for(Integer i = 0 ; i< tags.size() ;i++) {
+			Forum forum = forumRepository.getForumByTags(tags.get(i));
+			if(newList.size() == 0) {
+				newList.add(forum);
+			} else {
+				boolean isExisted = false;
+				for(Integer j = 0 ; j< newList.size() ;j++) {
+					if(forum.getForum_id() == newList.get(j).getForum_id()) {
+						isExisted = true;
+					}
+				}
+				if(isExisted == false) {
+					newList.add(forum);
+				}
+			}
+		}
+		return newList;
 	}
 
 }

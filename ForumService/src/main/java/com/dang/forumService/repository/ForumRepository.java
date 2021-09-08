@@ -32,4 +32,7 @@ public interface ForumRepository extends JpaRepository<Forum,Integer>{
 	@Transactional
 	@Query("update Forum f set f.isLegal = ?2 where f.forumId = ?1")
 	void legalizeForum(Integer forumId,boolean isLegal);
+
+	@Query("from Forum f where f.tagList like %?1%")
+	Forum getForumByTags(String tag);
 }

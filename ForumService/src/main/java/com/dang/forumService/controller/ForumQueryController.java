@@ -51,4 +51,9 @@ public class ForumQueryController {
     public Integer getLikeOfUser(@PathVariable String userId){
         return forumService.getLikeOfUser(userId);
     }
+
+    @GetMapping("/search_by_tags/{tagList}")
+    public List<Forum> searchForumByTag(@PathVariable String tagList){
+        return forumService.searchByTags(tagList);
+    }
 }
