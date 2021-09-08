@@ -43,4 +43,9 @@ public class TagService {
         }
         return new TagResponse("valid tags","Tags are valid to use",204);
     }
+
+    public List<Tag> getTags() {
+        return tagRepository.findAll();
+    }
+
 }
