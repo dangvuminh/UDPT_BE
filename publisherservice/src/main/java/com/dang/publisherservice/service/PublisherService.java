@@ -15,6 +15,5 @@ public class PublisherService {
 
     public void produceMsg(String msg){
         amqpTemplate.convertAndSend(exchange, "",msg);
-        //System.out.println("Send msg = " + msg);
     }
 }
