@@ -34,11 +34,12 @@ public class ForumService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	private List<Forum> mapForumsWithComments(List<Forum> forumList) {
+	private List<ForumDisplay> mapForumsWithComments(List<Forum> forumList) {
 		return forumList.stream().map((q) -> {
 			NumberOfComments num = restTemplate.getForObject("http://COMMENT-SERVICE/api/comment/count_comment_by_forum/" + q.getForum_id(), NumberOfComments.class);
+			UserInfo user = restTemplate.getForObject("http://USER-SERVICE/api/user/get_user/" + q.getUser_id_fk(),UserInfo.class);
 			Integer numOfLike = getNumOfLike(q.getForum_id());
-				return new Forum(q.getForum_id(),q.getForum_name(),q.getForum_content(),q.getUser_id_fk(),numOfLike,q.isIs_legal(),num.getNumberOfComments(),q.getTagList(),q.getCategory_id_fk());
+				return new ForumDisplay(q.getForum_id(),q.getForum_name(),q.getForum_content(),q.getUser_id_fk(),numOfLike,q.isIs_legal(),num.getNumberOfComments(),q.getTagList(),q.getCategory_id_fk(),user.getFirst_name(),user.getLast_name(),user.getProfile_img());
 		}).collect(Collectors.toList());
 	}
 	boolean doesUserLikeForum(String userId,Integer forumId) {
@@ -84,22 +85,22 @@ public class ForumService {
 		return new ForumResponse("forum not found","This forum can't be used",404);
 	}
 
-	public List<Forum> getIllegalQuestionList(){
+	public List<ForumDisplay> getIllegalQuestionList(){
 		List<Forum> forumList = forumRepository.findAllByIsLegalEquals(false);
 		return mapForumsWithComments(forumList);
 	}
 
-	public List<Forum> getIllegalQuestionListByCategory(Integer categoryId){
+	public List<ForumDisplay> getIllegalQuestionListByCategory(Integer categoryId){
 		List<Forum> forumList = forumRepository.findAllByCategoryIdAndIsLegal(categoryId,false);
 		return mapForumsWithComments(forumList);
 	}
 
-	public List<Forum> getLegalQuestionList(){
+	public List<ForumDisplay> getLegalQuestionList(){
 		List<Forum> forumList = forumRepository.findAllByIsLegalEquals(true);
 		return mapForumsWithComments(forumList);
 	}
 
-	public List<Forum> getLegalQuestionListByCategory(Integer categoryId){
+	public List<ForumDisplay> getLegalQuestionListByCategory(Integer categoryId){
 		List<Forum> forumList = forumRepository.findAllByCategoryIdAndIsLegal(categoryId,true);
 		return mapForumsWithComments(forumList);
 	}

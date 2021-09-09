@@ -42,6 +42,12 @@ public class UserService {
 		restTemplate.getForObject("http://MAIL-SERVICE/api/mail/sendEmail" + "?msg=" + message,String.class);
 	}
 
+	private UserInfo mapToUserInfo(User user) {
+		return new UserInfo(
+				user.getUser_id(),user.getUsername(),user.getFirst_name(),user.getLast_name(),user.getEmail(),
+				user.getProfile_img(),user.isIs_admin());
+	}
+
 	public Optional<UserInfo> signIn(UserSignIn user){
 		Optional<User> userInfo = userRepository.userSignInAuthen(user.getUsername(),user.getPassword());
 		if(userInfo.isPresent()) {
@@ -98,5 +104,10 @@ public class UserService {
 			return new UserResponse("is admin","This user is Admin",204);
 		}
 		return new UserResponse("not found admin","This user is not Admin",404);
+	}
+
+
+	public Optional<UserInfo> getUser(String userId) {
+		return Optional.of(mapToUserInfo(userRepository.getById(userId)));
 	}
 }
