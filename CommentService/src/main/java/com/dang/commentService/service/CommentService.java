@@ -2,6 +2,7 @@ package com.dang.commentService.service;
 
 import com.dang.commentService.entity.*;
 import com.dang.commentService.repository.LikeCommentRepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -108,7 +110,20 @@ public class CommentService {
 		return commentRepository.countByUserIdEquals(userId);
 	}
 
-	public List<Comment> getComments(Integer forumId) {
-		return commentRepository.findAllByForumId(forumId);
+	public List<CommentDisplay> getComments(Integer forumId) {
+		List<Comment> comments  = commentRepository.findAllByForumId(forumId);
+		return comments.stream().map((c)->{
+			UserInfo user = restTemplate.getForObject("http://USER-SERVICE/api/user/get_user/" + c.getUserId(), UserInfo.class);
+			return new CommentDisplay(
+					c.getCommentId(),
+					c.getForumId(),
+					c.getUserId(),
+					c.getNum_of_likes(),
+					c.getCommentContent(),
+					user.getFirst_name(),
+					user.getLast_name(),
+					user.getProfile_img()
+			);
+		}).collect(Collectors.toList());
 	}
 }

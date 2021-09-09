@@ -1,5 +1,6 @@
 package com.dang.forumService.controller;
 
+import com.dang.forumService.entity.Category;
 import com.dang.forumService.entity.Forum;
 import com.dang.forumService.entity.ForumDisplay;
 import com.dang.forumService.entity.ForumResponse;
@@ -56,5 +57,10 @@ public class ForumQueryController {
     @GetMapping("/search_by_tags/{tagList}")
     public List<Forum> searchForumByTag(@PathVariable String tagList){
         return forumService.searchByTags(tagList);
+    }
+
+    @GetMapping("/get_categories")
+    public List<Category> getCategories(){
+        return forumService.getCategories();
     }
 }

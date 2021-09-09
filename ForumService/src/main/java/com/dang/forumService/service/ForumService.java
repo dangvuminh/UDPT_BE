@@ -10,10 +10,7 @@ import com.dang.forumService.entity.*;
 import com.dang.forumService.repository.CategoryRepository;
 import com.dang.forumService.repository.LikeForumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -191,6 +188,10 @@ public class ForumService {
 			}
 		}
 		return newList;
+	}
+
+	public List<Category> getCategories() {
+		return categoryRepository.findAll();
 	}
 
 }
