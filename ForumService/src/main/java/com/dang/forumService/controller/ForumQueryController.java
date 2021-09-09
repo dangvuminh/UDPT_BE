@@ -1,6 +1,7 @@
 package com.dang.forumService.controller;
 
 import com.dang.forumService.entity.Forum;
+import com.dang.forumService.entity.ForumDisplay;
 import com.dang.forumService.entity.ForumResponse;
 import com.dang.forumService.service.ForumService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +19,22 @@ public class ForumQueryController {
     private ForumService forumService;
 
     @GetMapping("/get_illegal_questions")
-    public List<Forum> getIllegalQuestionList(){
+    public List<ForumDisplay> getIllegalQuestionList(){
         return forumService.getIllegalQuestionList();
     }
 
     @GetMapping("/get_illegal_questions/{categoryId}")
-    public List<Forum> getIllegalQuestionListByCategory(@PathVariable Integer categoryId){
+    public List<ForumDisplay> getIllegalQuestionListByCategory(@PathVariable Integer categoryId){
         return forumService.getIllegalQuestionListByCategory(categoryId);
     }
 
     @GetMapping("/get_legal_questions")
-    public List<Forum> getLegalQuestionList(){
+    public List<ForumDisplay> getLegalQuestionList(){
         return forumService.getLegalQuestionList();
     }
 
     @GetMapping("/get_legal_questions/{categoryId}")
-    public List<Forum> getLegalQuestionListByCategory(@PathVariable Integer categoryId){
+    public List<ForumDisplay> getLegalQuestionListByCategory(@PathVariable Integer categoryId){
         return forumService.getLegalQuestionListByCategory(categoryId);
     }
 
