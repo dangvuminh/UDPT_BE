@@ -9,6 +9,9 @@ public class UserSignIn {
     @NotNull
     private String password;
 
+    public UserSignIn() {
+    }
+
     public UserSignIn(@NotNull String username, @NotNull String password) {
         this.username = username;
         this.password = password;

@@ -64,6 +64,7 @@ public class ForumService {
 					return new ForumResponse("forum created",areTagsValid.getMessage(),areTagsValid.getStatusCode());
 					}
 				}
+				forumRepository.save(forum);
 				return new ForumResponse("forum created","A new forum is created",204);
 			}
 			return new ForumResponse("failed to create","The user or category is not existing",404);
