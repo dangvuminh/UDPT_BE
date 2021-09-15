@@ -63,4 +63,9 @@ public class ForumQueryController {
     public List<Category> getCategories(){
         return forumService.getCategories();
     }
+
+    @GetMapping("/get_forum_by_user/{userId}")
+    public List<Forum> getForumByUser(@PathVariable String userId){
+        return forumService.getForumByUser(userId);
+    }
 }

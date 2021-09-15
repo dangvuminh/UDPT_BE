@@ -110,4 +110,13 @@ public class UserService {
 	public Optional<UserInfo> getUser(String userId) {
 		return Optional.of(mapToUserInfo(userRepository.getById(userId)));
 	}
+
+	public UserResponse deleteUser(DeleteUser deleteUser) {
+		UserResponse isExistedAdmin = getAdmin(deleteUser.getMyUserId());
+		if(isExistedAdmin.getStatusCode() == 204) {
+			userRepository.deleteById(deleteUser.getUserId());
+			return new UserResponse("deleted user", "This user have been deleted", 204);
+		}
+		return new UserResponse("failed to delete", "You don't have permission to delete this user", 403);
+	}
 }

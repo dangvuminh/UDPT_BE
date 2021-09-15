@@ -40,4 +40,9 @@ public class UserCommandController {
 	public void changeImage(@RequestBody ChangeImage changeImage) {
 		 userService.changeImage(changeImage);
 	}
+
+	@DeleteMapping("/delete_user")
+	public UserResponse deleteUser(@RequestBody DeleteUser deleteUser ) {
+		return userService.deleteUser(deleteUser);
+	}
 }

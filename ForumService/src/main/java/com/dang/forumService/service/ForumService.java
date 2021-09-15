@@ -195,4 +195,8 @@ public class ForumService {
 		return categoryRepository.findAll();
 	}
 
+	public List<Forum> getForumByUser(String userId) {
+		return forumRepository.findAllByUserId(userId);
+	}
+
 }
