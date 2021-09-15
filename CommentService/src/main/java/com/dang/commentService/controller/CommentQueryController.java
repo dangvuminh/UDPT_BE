@@ -2,6 +2,7 @@ package com.dang.commentService.controller;
 
 import com.dang.commentService.entity.Comment;
 import com.dang.commentService.entity.CommentDisplay;
+import com.dang.commentService.entity.LikeComment;
 import com.dang.commentService.entity.NumberOfComments;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,4 +41,10 @@ public class CommentQueryController {
     public List<CommentDisplay> getComments(@PathVariable Integer forumId){
         return commentService.getComments(forumId);
     }
+
+    @GetMapping("/get_favorite_comments/{forumId}/{userId}")
+    public List<LikeComment> getFavoriteComments(@PathVariable Integer forumId,@PathVariable String userId){
+        return commentService.getFavoriteComments(forumId,userId);
+    }
+
 }

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 public interface LikeCommentRepository extends JpaRepository<LikeComment,Integer> {
@@ -17,4 +18,6 @@ public interface LikeCommentRepository extends JpaRepository<LikeComment,Integer
     void updateLikeComment(Integer commentId, String userId, Integer forumId, boolean isLiked);
 
     Integer countByCommentIdAndForumIdAndIsLikedEquals(Integer commentId,Integer forumId,boolean isLiked);
+
+    List<LikeComment> findAllByForumIdAndUserIdAndIsLiked(Integer forumId,String userId, boolean isLiked);
 }

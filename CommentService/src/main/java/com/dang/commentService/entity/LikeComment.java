@@ -8,7 +8,7 @@ public class LikeComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="like_comment_id")
-    private Integer likeForumId;
+    private Integer likeCommentId;
 
     @Column(name="user_id_fk")
     private String userId;
@@ -25,12 +25,12 @@ public class LikeComment {
     public LikeComment() {
     }
 
-    public Integer getLikeForumId() {
-        return likeForumId;
+    public Integer getLikeCommentIdId() {
+        return likeCommentId;
     }
 
-    public void setLikeForumId(Integer likeForumId) {
-        this.likeForumId = likeForumId;
+    public void setLikeCommentId(Integer likeForumId) {
+        this.likeCommentId = likeForumId;
     }
 
     public String getUserId() {

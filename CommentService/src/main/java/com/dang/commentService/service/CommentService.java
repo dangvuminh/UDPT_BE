@@ -64,7 +64,8 @@ public class CommentService {
 		if(doesUserLikeComment(likeComment.getCommentId(),likeComment.getUserId(),likeComment.getForumId()) == false) {
 			CommentResponse isUserExisted = restTemplate.getForObject("http://USER-SERVICE/api/user/validate/" + likeComment.getUserId(), CommentResponse.class);
 			CommentResponse isForumExisted = restTemplate.getForObject("http://FORUM-SERVICE/api/forum/is_forum_existed/" + likeComment.getForumId(), CommentResponse.class);
-			Optional<Comment> isCommentExisted = commentRepository.findByCommentIdAndUserIdAndForumId(likeComment.getCommentId(),likeComment.getUserId(),likeComment.getForumId());
+			Optional<Comment> userCreatedComment = commentRepository.findOneByCommentIdAndForumId(likeComment.getCommentId(),likeComment.getForumId());
+			Optional<Comment> isCommentExisted = commentRepository.findByCommentIdAndUserIdAndForumId(likeComment.getCommentId(),userCreatedComment.get().getUserId(),likeComment.getForumId());
 			if(isUserExisted.getStatusCode() == 204 && isForumExisted.getStatusCode() == 204 && isCommentExisted.isPresent()) {
 				likeComment.setLiked(true);
 				likeCommentRepository.save(likeComment);
@@ -125,5 +126,9 @@ public class CommentService {
 					user.getProfile_img()
 			);
 		}).collect(Collectors.toList());
+	}
+
+	public List<LikeComment> getFavoriteComments(Integer forumId,String userId) {
+		return likeCommentRepository.findAllByForumIdAndUserIdAndIsLiked(forumId,userId,true);
 	}
 }
