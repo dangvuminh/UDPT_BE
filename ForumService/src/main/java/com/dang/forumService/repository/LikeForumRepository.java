@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 public interface LikeForumRepository extends JpaRepository<LikeForum,Integer> {
@@ -19,4 +20,6 @@ public interface LikeForumRepository extends JpaRepository<LikeForum,Integer> {
     Integer countByForumIdAndIsLikedEquals(Integer forumId,boolean isLiked);
 
     Integer countByForumId(Integer forumId);
+
+    List<LikeForum> findAllByForumIdAndUserIdAndIsLiked(Integer forumId, String userId, boolean isLiked);
 }

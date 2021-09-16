@@ -199,4 +199,8 @@ public class ForumService {
 		return forumRepository.findAllByUserId(userId);
 	}
 
+	public List<LikeForum> getFavoriteForums(Integer forumId,String userId) {
+		return likeForumRepository.findAllByForumIdAndUserIdAndIsLiked(forumId,userId,true);
+	}
+
 }

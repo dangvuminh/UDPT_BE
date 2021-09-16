@@ -1,9 +1,6 @@
 package com.dang.forumService.controller;
 
-import com.dang.forumService.entity.Category;
-import com.dang.forumService.entity.Forum;
-import com.dang.forumService.entity.ForumDisplay;
-import com.dang.forumService.entity.ForumResponse;
+import com.dang.forumService.entity.*;
 import com.dang.forumService.service.ForumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,5 +64,10 @@ public class ForumQueryController {
     @GetMapping("/get_forum_by_user/{userId}")
     public List<Forum> getForumByUser(@PathVariable String userId){
         return forumService.getForumByUser(userId);
+    }
+
+    @GetMapping("/get_favorite_forums/{forumId}/{userId}")
+    public List<LikeForum> getFavoriteComments(@PathVariable Integer forumId, @PathVariable String userId){
+        return forumService.getFavoriteForums(forumId,userId);
     }
 }
