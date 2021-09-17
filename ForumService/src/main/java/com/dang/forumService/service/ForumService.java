@@ -203,4 +203,8 @@ public class ForumService {
 		return likeForumRepository.findAllByForumIdAndUserIdAndIsLiked(forumId,userId,true);
 	}
 
+	public Integer getNumForumsByUser(String userId) {
+		return forumRepository.countByUserId(userId);
+	}
+
 }

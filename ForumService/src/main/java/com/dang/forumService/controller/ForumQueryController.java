@@ -70,4 +70,9 @@ public class ForumQueryController {
     public List<LikeForum> getFavoriteComments(@PathVariable Integer forumId, @PathVariable String userId){
         return forumService.getFavoriteForums(forumId,userId);
     }
+
+    @GetMapping("/get_num_forums_by_user/{userId}")
+    public Integer getNumForumsByUser(@PathVariable String userId){
+        return forumService.getNumForumsByUser(userId);
+    }
 }

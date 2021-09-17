@@ -35,4 +35,6 @@ public interface ForumRepository extends JpaRepository<Forum,Integer>{
 
 	@Query("from Forum f where f.tagList like %?1%")
 	Forum getForumByTags(String tag);
+
+	Integer countByUserId(String userId);
 }
